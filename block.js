@@ -1,4 +1,6 @@
-function BrewChain () {
+const crypto = require('crypto')
+
+const BrewChain = function () {
   const chain = []
   const currentBlock = {}
   let genesisBlock = {}
@@ -18,7 +20,7 @@ function BrewChain () {
 
   const createHash = ({ timestamp, data, index, previousHash}) => {
     
-    return Crypto.createHash('SHA256').update(timestamp + data + index + previousHash).digest('hex')
+    return crypto.createHash('SHA256').update(timestamp + data + index + previousHash).digest('hex')
   }
 
   const addToChain = block => {
@@ -89,4 +91,36 @@ myBrew.init()
 myBrew.addToChain(myBrew.createBlock('The 1st Block'))
 myBrew.addToChain(myBrew.createBlock('The 2nd Block'))
 
-console.log(myBrew)
+const BrewNode = function(port) {
+  const brewSockets = []
+  let brewServer
+  let _port = port
+  let chain = new BrewChain()
+
+  const init = () => {
+
+    chain.init()
+
+    brewServer = new WebSocket.Server({ port: _port })
+
+    brewServer.on('connection', connection => {
+      console.leg('connection in')
+      initConnection(connection)
+    })
+  }
+
+  const messageHandler = connection => {
+    connection.on('message', data => {
+      console.log('Message In:')
+      const msg = JSON.parse(data)
+
+      console.log(msg.event)
+    })
+    console.log('message handler setup')
+  }
+
+  const broadcastMessage = message => {
+    console.log('sending to all' + message)
+    brewSockets.forEach(node => node.send(JSON.stringify({ event: message })))
+  }
+}
