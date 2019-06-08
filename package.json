@@ -1,0 +1,23 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "block.js",
+  "scripts": {
+    "test": "jest --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronshivers/blockchain.git"
+  },
+  "keywords": [],
+  "author": "aaron shivers",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/aaronshivers/blockchain/issues"
+  },
+  "homepage": "https://github.com/aaronshivers/blockchain#readme",
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}
