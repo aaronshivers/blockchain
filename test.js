@@ -23,7 +23,7 @@ console.log(user)
   const newBlock = {
     index: user.currentBlock.index += 1,
     timestamp: new Date().getTime(),
-    // data: 'fart',
+    // data: 'test',
     previousHash: user.chain
   }
 
