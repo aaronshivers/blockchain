@@ -1,7 +1,7 @@
 const Block = require('./block')
 const cryptoHash = require('./crypto-hash')
 
-class blockchain {
+class Blockchain {
   constructor() {
     this.chain = [ Block.genesis() ]
   }
@@ -12,6 +12,23 @@ class blockchain {
       data
     })
     this.chain.push(newBlock)
+  }
+
+  replaceChain(chain) {
+    
+    if (chain.length <= this.chain.length) {
+
+      console.error('The incoming chain must be larger')
+      return
+    }
+    if (!Blockchain.isValidChain(chain)) {
+
+      console.error('The incoming chain must be valid')
+      return
+    }
+
+    console.log('replacing chain with ', chain)
+    this.chain = chain
   }
 
   static isValidChain(chain) {
@@ -36,4 +53,4 @@ class blockchain {
   }
 }
 
-module.exports = blockchain
+module.exports = Blockchain
