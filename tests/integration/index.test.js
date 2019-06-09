@@ -1,14 +1,17 @@
 const request = require('supertest')
-const app = require('../../app')
+let server
 
 describe('/', () => {
+
+  beforeEach(() => server = require('../../app'))
+  afterEach(() => server.close())
 
   // GET /
   describe('GET /', () => {
 
     it('should respond 200', async () => {
 
-      await request(app)
+      await request(server)
         .get('/')
         .expect(200)
         .expect(res => {

@@ -1,24 +1,37 @@
 const request = require('supertest')
-const app = require('../../app')
+let server
+
 
 const Blockchain = require('../../blockchain')
+const blockchain = new Blockchain()
 
-describe('/api/blocks', () => {
+beforeEach(() => server = require('../../app'))
+afterEach(() => server.close())
 
-  // GET /api/blocks
-  describe('GET /api/blocks', () => {
+// GET /api/blocks
+describe('GET /api/blocks', () => {
 
-    // it('should respond 200', async () => {
+  it('should respond 200', async () => {
 
-    //   const blockhain = new Blockchain()
+    await request(server)
+      .get('/api/blocks')
+      .expect(200)
+      .expect(res => {
+        expect(res.body.toString()).toContain(blockchain.chain)
+      })
+  })
+})
 
-    //   await request(app)
-    //     .get('/')
-    //     .send(blockchain)
-    //     .expect(200)
-    //     .expect(res => {
-    //       expect(res.json).toContain(blockchain.chain)
-    //     })
-    // })
+// POST /api/mine
+describe('POST /api/mine', () => {
+
+  it('should respond 302 and redirect to /api/blocks', async () => {
+
+    await request(server)
+      .post('/api/mine')
+      .expect(302)
+      .expect(res => {
+        expect(res.header.location).toEqual('/api/blocks')
+      })
   })
 })

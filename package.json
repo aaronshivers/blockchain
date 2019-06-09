@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "jest --watchAll",
+    "test": "jest --watch --runInBand",
     "dev": "nodemon app.js"
   },
   "repository": {
@@ -26,5 +26,8 @@
     "express": "^4.17.1",
     "hex-to-binary": "^1.0.1",
     "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
