@@ -1,5 +1,6 @@
 const Blockchain = require('./blockchain')
 const Block = require('./block')
+const cryptoHash = require('./crypto-hash')
 
 describe('Blockchain', () => {
 
@@ -40,41 +41,60 @@ describe('Blockchain', () => {
 
         expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
       })
+    })
 
-      describe('when the chain starts with the genesis block and has multiple blocks', () => {
+    describe('when the chain starts with the genesis block and has multiple blocks', () => {
 
-        beforeEach(() => {
-          blockchain.addBlock({ data: 'Lions' })
-          blockchain.addBlock({ data: 'Tigers' })
-          blockchain.addBlock({ data: 'Bears' })
+      beforeEach(() => {
+        blockchain.addBlock({ data: 'Lions' })
+        blockchain.addBlock({ data: 'Tigers' })
+        blockchain.addBlock({ data: 'Bears' })
+      })
+
+      describe('and a lastHash reference has changed', () => {
+
+        it('returns false', () => {
+
+          blockchain.chain[2].lastHash = 'broken-lastHash'
+
+          expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
         })
+      })
 
-        describe('and a lastHash reference has changed', () => {
+      describe('and the chain contains a block with an invalid field', () => {
 
-          it('returns false', () => {
+        it ('returns false', () => {
 
-            blockchain.chain[2].lastHash = 'broken-lastHash'
+          blockchain.chain[2].data = 'some-bad-evil-data'
 
-            expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
-          })
+          expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
+        })
+      })
 
-          describe('and the chain contains a block with an invalid field', () => {
+      describe('and the chain contains a block with a jumped difficulty', () => {
+        
+        it('returns false', () => {
 
-            it ('returns false', () => {
+          const lastBlock = blockchain.chain[blockchain.chain.length - 1]
+          const lastHash = lastBlock.hash
+          const timestamp = Date.now()
+          const nonce = 0
+          const data = []
+          const difficulty = lastBlock.difficulty - 3
+          const hash = cryptoHash(timestamp, lastHash, difficulty, nonce, data)
+          const badBlock = new Block({ timestamp, lastHash, hash, difficulty, nonce, data })
+        
+          blockchain.chain.push(badBlock)
 
-              blockchain.chain[2].data = 'some-bad-evil-data'
+          expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
+        })
+      })
 
-              expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
-            })
-          })
+      describe('and the chain does not contain any invalid blocks', () => {
 
-          describe('and the chain does not contain any invalid blocks', () => {
+        it('returns true', () => {
 
-            it('returns true', () => {
-
-              expect(Blockchain.isValidChain(blockchain.chain)).toBe(true)
-            })
-          })
+          expect(Blockchain.isValidChain(blockchain.chain)).toBe(true)
         })
       })
     })
