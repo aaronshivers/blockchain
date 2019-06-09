@@ -1,5 +1,5 @@
 const crypto = require('crypto')
-const { GENESIS_DATA } = require('./config')
+const { GENESIS_DATA, MINE_RATE } = require('./config')
 const cryptoHash = require('./crypto-hash')
 
 class Block {
@@ -34,17 +34,14 @@ class Block {
     return new this({ timestamp, lastHash, data, nonce, difficulty, hash })
   }
 
-  // toString() {
-  //   return `Block -
-  //   Data     : ${ this.data }
-  //   Last Hash: ${ this.lastHash.toString(0, 10) }
-  //   Hash     : ${ this.hash.toString(0, 10) }`
-  // }
+  static adjustDifficulty({ originalBlock, timestamp }) {
 
-  // init() {
+    const { difficulty } = originalBlock
 
-  // }
+    const difference = timestamp - originalBlock.timestamp
+
+    return difference > MINE_RATE ? difficulty - 1 : difficulty + 1
+  }
 }
 
 module.exports = Block
-
