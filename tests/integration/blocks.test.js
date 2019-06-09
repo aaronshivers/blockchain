@@ -1,7 +1,6 @@
 const request = require('supertest')
 let server
 
-
 const Blockchain = require('../../blockchain')
 const blockchain = new Blockchain()
 
@@ -17,7 +16,7 @@ describe('GET /api/blocks', () => {
       .get('/api/blocks')
       .expect(200)
       .expect(res => {
-        expect(res.body.toString()).toContain(blockchain.chain)
+        expect(JSON.stringify(res.body)).toContain(JSON.stringify(blockchain.chain))
       })
   })
 })
