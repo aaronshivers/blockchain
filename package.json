@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node app.js",
     "test": "jest --watch --runInBand",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "dev-peer-1": "export PORT=3001 && nodemon app.js",
+    "dev-peer-2": "export PORT=3002 && nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "express": "^4.17.1",
     "hex-to-binary": "^1.0.1",
     "pubnub": "^4.24.1",
+    "request": "^2.88.0",
     "supertest": "^4.0.2"
   },
   "jest": {
