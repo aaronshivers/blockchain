@@ -4,7 +4,16 @@ class TransactionPool {
   }
 
   setTransaction(transaction) {
+    console.log(transaction)
     this.transactionMap[transaction.id] = transaction
+  }
+
+  existingTransaction({ inputAddress }) {
+    const transactions = Object.values(this.transactionMap)
+
+    return transactions.find(transaction => {
+      return transaction.input.address === inputAddress
+    })
   }
 }
 

@@ -37,7 +37,17 @@ router.post('/api/transact', (req, res) => {
 
     const { amount, recipient } = req.body
 
-    const transaction = wallet.createTransaction({ amount, recipient })
+    let transaction = transactionPool
+      .existingTransaction({ inputAddress: wallet.publicKey })
+
+    if (transaction) {
+
+      transaction.update({ senderWallet: wallet, recipient, amount })
+
+    } else {
+
+      transaction = wallet.createTransaction({ amount, recipient })
+    }
 
     transactionPool.setTransaction(transaction)
 
