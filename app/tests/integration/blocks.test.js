@@ -1,11 +1,11 @@
 const request = require('supertest')
 let server
 
-const Blockchain = require('../../blockchain')
+const Blockchain = require('../../../block/index')
 const blockchain = new Blockchain()
 
 beforeEach(() => server = require('../../app'))
-afterEach(() => server.close())
+afterEach(async () => await server.close())
 
 // GET /api/blocks
 describe('GET /api/blocks', () => {

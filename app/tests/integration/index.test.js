@@ -3,8 +3,8 @@ let server
 
 describe('/', () => {
 
-  beforeEach(() => server = require('../../app'))
-  afterEach(() => server.close())
+  beforeEach(async () => server = await require('../../app'))
+  afterEach(async () => await server.close())
 
   // GET /
   describe('GET /', () => {

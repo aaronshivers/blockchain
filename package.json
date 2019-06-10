@@ -5,7 +5,7 @@
   "main": "app/app.js",
   "scripts": {
     "start": "node app/app.js",
-    "test": "jest --watch --runInBand",
+    "test": "cross-env GENERATE_PEER_PORT='true' jest --watchAll",
     "dev": "nodemon app/app.js",
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon app.js"
   },
@@ -26,6 +26,7 @@
   "dependencies": {
     "cross-env": "^5.2.0",
     "dotenv": "^8.0.0",
+    "elliptic": "^6.4.1",
     "express": "^4.17.1",
     "hex-to-binary": "^1.0.1",
     "pubnub": "^4.24.1",

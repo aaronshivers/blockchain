@@ -1,4 +1,3 @@
-require('dotenv').config()
 const PubNub = require('pubnub')
     
 const { PUB_KEY, SUB_KEY, SEC_KEY } = process.env

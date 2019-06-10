@@ -18,13 +18,11 @@ class Blockchain {
     
     if (chain.length <= this.chain.length) {
 
-      console.error('The incoming chain must be larger')
-      return
+      return console.error('The incoming chain must be larger')
     }
     if (!Blockchain.isValidChain(chain)) {
 
-      console.error('The incoming chain must be valid')
-      return
+      return console.error('The incoming chain must be valid')
     }
 
     console.log('replacing chain with ', chain)
