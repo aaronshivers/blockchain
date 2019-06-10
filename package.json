@@ -2,11 +2,11 @@
   "name": "blockchain",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "app/app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node app/app.js",
     "test": "jest --watch --runInBand",
-    "dev": "nodemon app.js",
+    "dev": "nodemon app/app.js",
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon app.js"
   },
   "repository": {

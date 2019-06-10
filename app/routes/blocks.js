@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const request = require('request')
 
-const Blockchain = require('../block/index')
-const PubSub = require('../app/pubsub')
+const Blockchain = require('../../block/index')
+const PubSub = require('../pubsub')
 
 const blockchain = new Blockchain()
 const pubsub = new PubSub({ blockchain })
