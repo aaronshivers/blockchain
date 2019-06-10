@@ -2,9 +2,9 @@ const { STARTING_BALANCE } = require('../config')
 const { ec } = require('../util/index')
 
 class Wallet {
-  constructor(balance, publicKey) {
+  constructor() {
     this.balance = STARTING_BALANCE
-    this.publicKey = ec.genKeyPair().getPublic()
+    this.publicKey = ec.genKeyPair().getPublic().encode('hex')
 
   }
 }
