@@ -24,7 +24,7 @@ class PubSub {
   broadcastChain() {
     this.publish({
       channel: CHANNELS.BLOCKCHAIN,
-      message: JSON.stringify(this.blockchain.chain)
+      message: JSON.stringify(this.blockchain.chain, null, 1)
     })
   }
 
@@ -39,7 +39,7 @@ class PubSub {
       message: messageObject => {
         const { channel, message } = messageObject
       
-        console.log(`Message received. Channel: ${ channel }. Message: ${ message }`)
+        console.log(`Message received.\nChannel: ${ channel }\nMessage: ${ message }`)
         const parsedMessage = JSON.parse(message)
 
         if (channel === CHANNELS.BLOCKCHAIN) {

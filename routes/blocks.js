@@ -2,15 +2,13 @@ const express = require('express')
 const router = express.Router()
 const request = require('request')
 
-const Blockchain = require('../blockchain')
-const PubSub = require('../pubsub')
+const Blockchain = require('../block/index')
+const PubSub = require('../app/pubsub')
 
 const blockchain = new Blockchain()
 const pubsub = new PubSub({ blockchain })
 
-const ROOT_NODE_ADDRESS = `http://localhost:${ 3000 }`
-
-setTimeout(() => pubsub.broadcastChain(), 1000)
+const ROOT_NODE_ADDRESS = `http://localhost:${ process.env.PORT }`
 
 // GET /api/blocks
 router.get('/api/blocks', (req, res) => {
