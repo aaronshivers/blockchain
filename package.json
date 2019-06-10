@@ -31,7 +31,8 @@
     "hex-to-binary": "^1.0.1",
     "pubnub": "^4.24.1",
     "request": "^2.88.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "uuid": "^3.3.2"
   },
   "jest": {
     "testEnvironment": "node"
