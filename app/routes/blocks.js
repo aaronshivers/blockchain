@@ -4,8 +4,12 @@ const request = require('request')
 
 const Blockchain = require('../../block/index')
 const PubSub = require('../pubsub')
+const TransactionPool = require('../../wallet/transaction-pool')
+const Wallet = require('../../wallet')
 
 const blockchain = new Blockchain()
+const transactionPool = new TransactionPool()
+const wallet = new Wallet
 const pubsub = new PubSub({ blockchain })
 
 const ROOT_NODE_ADDRESS = `http://localhost:${ process.env.PORT }`
@@ -24,6 +28,28 @@ router.post('/api/mine', (req, res) => {
   pubsub.broadcastChain()
 
   res.redirect('/api/blocks')
+})
+
+// POST /api/transact
+router.post('/api/transact', (req, res) => {
+
+  try {
+
+    const { amount, recipient } = req.body
+
+    const transaction = wallet.createTransaction({ amount, recipient })
+
+    transactionPool.setTransaction(transaction)
+
+    console.log('transactionPool', transactionPool)
+
+    res.json({ transaction })
+
+  } catch (error) {
+
+    res.status(400).json({ error: error.message })
+
+  }
 })
 
 const syncChains = () => {
