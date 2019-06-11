@@ -31,13 +31,19 @@ class Wallet {
 
   static calculateBalance({ chain, address }) {
 
+    let hasConductedTransaction = false
     let outputsTotal = 0
 
-    for (let i = 1; i < chain.length; i++) {
+    for (let i = chain.length - 1; i > 0; i--) {
 
       const block = chain[i]
 
       for (const transaction of block.data) {
+
+        if (transaction.input.address === address) {
+
+          hasConductedTransaction = true
+        }
 
         const addressOutput = transaction.outputMap[address]
 
@@ -46,9 +52,13 @@ class Wallet {
           outputsTotal += addressOutput
         }
       }
+
+      if (hasConductedTransaction) break
     }
 
-    return STARTING_BALANCE + outputsTotal
+    return hasConductedTransaction ?
+      outputsTotal :
+      STARTING_BALANCE + outputsTotal
   }
 }
 
