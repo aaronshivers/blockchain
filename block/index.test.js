@@ -285,8 +285,14 @@ describe('Blockchain', () => {
 
         it('should return false and logs an error', () => {
 
+          newChain.addBlock({
 
-          // expect(errorMock).toHaveBeenCalled()
+            data: [ transaction, transaction, transaction, rewardTransaction ]
+          })
+
+          expect(blockchain.validTransactionData({ chain: newChain.chain }))
+              .toBe(false)
+          expect(errorMock).toHaveBeenCalled()
         })
       })
     })

@@ -23,6 +23,7 @@ class Blockchain {
 
       return console.error('The incoming chain must be larger')
     }
+
     if (!Blockchain.isValidChain(chain)) {
 
       return console.error('The incoming chain must be valid')
@@ -39,6 +40,7 @@ class Blockchain {
     for (let i = 1; i < chain.length; i++) {
 
       const block = chain[i]
+      const transactionSet = new Set()
 
       let rewardTransactionCount = 0
 
@@ -59,6 +61,7 @@ class Blockchain {
             console.error('Miner reward amount is invalid')
             return false
           }
+
         } else {
 
           if (!Transaction.validTransaction(transaction)) {
@@ -76,6 +79,16 @@ class Blockchain {
 
             console.error('Invalid input amount')
             return false
+          }
+
+          if (transactionSet.has(transaction)) {
+
+            console.error('An identical transaction appears more than once in the block')
+            return false
+          
+          } else {
+
+            transactionSet.add(transaction)
           }
         }
       }
