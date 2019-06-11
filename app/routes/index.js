@@ -54,7 +54,7 @@ router.post('/api/transact', (req, res) => {
     } else {
 
       transaction = wallet.createTransaction({
-        
+
         amount,
         recipient,
         chain: blockchain.chain
@@ -102,6 +102,27 @@ router.get('/api/mine-transactions', (req, res) => {
     res.json({ error: error.message })
 
   }
+})
+
+// GET /api/wallet-info
+router.get('/api/wallet-info', (req, res) => {
+
+  try {
+
+    const address = wallet.publicKey
+    
+    res.json({
+
+      address,
+      balance: Wallet.calculateBalance({ chain: blockchain.chain, address })
+    })
+
+  } catch (error) {
+    
+    res.json({ error: error.message })
+
+  }
+
 })
 
 const syncWithRootState = () => {
