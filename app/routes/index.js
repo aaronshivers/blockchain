@@ -10,7 +10,7 @@ const Wallet = require('../../wallet')
 const blockchain = new Blockchain()
 const transactionPool = new TransactionPool()
 const wallet = new Wallet
-const pubsub = new PubSub({ blockchain })
+const pubsub = new PubSub({ blockchain, transactionPool, wallet })
 
 const ROOT_NODE_ADDRESS = `http://localhost:${ process.env.PORT }`
 
@@ -54,7 +54,7 @@ router.post('/api/transact', (req, res) => {
 
     transactionPool.setTransaction(transaction)
 
-    console.log('transactionPool', transactionPool)
+    pubsub.broadcastTransaction(transaction)
 
     res.json({ transaction })
 

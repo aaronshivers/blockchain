@@ -9,28 +9,19 @@ const credentials = {
 
 const CHANNELS = {
   TEST: 'TEST',
-  BLOCKCHAIN: 'BLOCKCHAIN'
+  BLOCKCHAIN: 'BLOCKCHAIN',
+  TRANSACTION: 'TRANSACTION'
 }  
 
 class PubSub {
-  constructor({ blockchain }) {
+  constructor({ blockchain, transactionPool, wallet }) {
     this.blockchain = blockchain
+    this.transactionPool = transactionPool
+    this.wallet = wallet
+
     this.pubnub = new PubNub(credentials)
     this.pubnub.subscribe({ channels: Object.values(CHANNELS) })
     this.pubnub.addListener(this.listener())
-  }
-
-  broadcastChain() {
-    this.publish({
-      channel: CHANNELS.BLOCKCHAIN,
-      message: JSON.stringify(this.blockchain.chain, null, 1)
-    })
-  }
-
-  subscribeToChannels() {
-    this.pubnub.subscribe({
-      channels: [ Object.values(CHANNELS) ]
-    })
   }
 
   listener() {
@@ -41,15 +32,46 @@ class PubSub {
         console.log(`Message received.\nChannel: ${ channel }\nMessage: ${ message }`)
         const parsedMessage = JSON.parse(message)
 
-        if (channel === CHANNELS.BLOCKCHAIN) {
-          this.blockchain.replaceChain(parsedMessage)
+        switch(channel) {
+          case CHANNELS.BLOCKCHAIN:
+            this.blockchain.replaceChain(parsedMessage)
+            break
+          case CHANNELS.TRANSACTION:
+            if (!this.transactionPool.existingTransaction({
+              inputAddress: this.wallet.publicKey
+            })) {
+              this.transactionPool.setTransaction(parsedMessage)
+            }
+            break
+          default:
+            return
         }
       }
     }
   }
 
+  subscribeToChannels() {
+    this.pubnub.subscribe({
+      channels: [ Object.values(CHANNELS) ]
+    })
+  }
+
   publish({ channel, message }) {
     this.pubnub.publish({ channel, message })
+  }
+
+  broadcastChain() {
+    this.publish({
+      channel: CHANNELS.BLOCKCHAIN,
+      message: JSON.stringify(this.blockchain.chain, null, 1)
+    })
+  }
+
+  broadcastTransaction(transaction) {
+    this.publish({
+      channel: CHANNELS.TRANSACTION,
+      message: JSON.stringify(transaction)
+    })
   }
 }
 
