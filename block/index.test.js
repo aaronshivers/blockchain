@@ -225,7 +225,7 @@ describe('Blockchain', () => {
 
       describe('and the transaction is not a reward transaction', () => {
 
-      it('should return false and logs an error', () => {
+        it('should return false and logs an error', () => {
 
           transaction.outputMap[ wallet.publicKey ] = 999999
 
@@ -239,29 +239,51 @@ describe('Blockchain', () => {
 
       describe('and the transaction is a reward transaction', () => {
 
-      it('should return false and logs an error', () => {
+        it('should return false and logs an error', () => {
 
-          rewardTransaction.outputMap[ wallet.publicKey ] = 999999
+            rewardTransaction.outputMap[ wallet.publicKey ] = 999999
 
-          newChain.addBlock({ data: [ transaction, rewardTransaction ] })
+            newChain.addBlock({ data: [ transaction, rewardTransaction ] })
 
-          expect(blockchain.validTransactionData({ chain: newChain.chain }))
-            .toBe(false)
-          expect(errorMock).toHaveBeenCalled()
-        })
+            expect(blockchain.validTransactionData({ chain: newChain.chain }))
+              .toBe(false)
+            expect(errorMock).toHaveBeenCalled()
+          })
       })
 
       describe('and the transaction data has at least one malformed input', () => {
 
-      it('should return false and logs an error', () => {
+        it('should return false and logs an error', () => {
 
-          // expect(errorMock).toHaveBeenCalled()
-        })
+            wallet.balance = 9000
+
+            const evilOutputMap = {
+              [ wallet.publicKey ]: 8900,
+              fooRecipient: 100
+            }
+
+            const evilTransaction = {
+
+              input: {
+                timestamp: Date.now(),
+                amount: wallet.balance,
+                address: wallet.publicKey,
+                signature: wallet.sign(evilOutputMap)
+              },
+              outputMap: evilOutputMap
+            }
+
+            newChain.addBlock({ data: [ evilTransaction, rewardTransaction ] })
+
+            expect(blockchain.validTransactionData({ chain: newChain.chain }))
+              .toBe(false)
+            expect(errorMock).toHaveBeenCalled()
+          })
       })
 
       describe('and a block contains multiple identical transactions', () => {
 
-      it('should return false and logs an error', () => {
+        it('should return false and logs an error', () => {
 
 
           // expect(errorMock).toHaveBeenCalled()
