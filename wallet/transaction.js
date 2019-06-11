@@ -3,7 +3,7 @@ const { verifySignature } = require('../util')
 
 class Transaction {
   constructor({ senderWallet, recipient, amount }) {
-    this.id = uuidv1
+    this.id = uuidv1()
     this.outputMap = this.createOutputMap({ senderWallet, recipient, amount})
     this.input = this.createInput({ senderWallet, outputMap: this.outputMap })
   }
@@ -41,8 +41,8 @@ class Transaction {
     this.input = this.createInput({ senderWallet, outputMap: this.outputMap })
   }
 
-  static validTransaction(Transaction) {
-    const { input: { address, amount, signature }, outputMap } = Transaction
+  static validTransaction(transaction) {
+    const { input: { address, amount, signature }, outputMap } = transaction
 
     const outputTotal = Object.values(outputMap)
       .reduce((total, outputAmount) => total + outputAmount)

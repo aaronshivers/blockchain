@@ -62,6 +62,20 @@ router.post('/api/transact', (req, res) => {
   }
 })
 
+// GET /api/transaction-pool-map
+router.get('/api/transaction-pool-map', (req, res) => {
+
+  try {
+    
+    res.json(transactionPool.transactionMap)
+
+  } catch (error) {
+
+    res.json({ error: error.message })
+
+  }
+})
+
 const syncChains = () => {
   request({ url: `${ ROOT_NODE_ADDRESS }/api/blocks` }, (err, res, body) => {
     if (!err && res.statusCode === 200) {
