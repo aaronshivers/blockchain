@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 
-const { router: indexRoutes, syncChains } = require('./routes/index')
+const { router: indexRoutes, syncWithRootState } = require('./routes/index')
 
 app.use(express.json())
 
@@ -22,7 +22,7 @@ const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${ PORT }.`)
 
   if (PORT !== DEFAULT_PORT) {
-    syncChains()
+    syncWithRootState()
   }
 })
 
