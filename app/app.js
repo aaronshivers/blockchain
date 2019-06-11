@@ -3,13 +3,11 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 
-const indexRoutes = require('./routes/index')
-const { router: blocksRoutes, syncChains } = require('./routes/blocks')
+const { router: indexRoutes, syncChains } = require('./routes/index')
 
 app.use(express.json())
 
 app.use(indexRoutes)
-app.use(blocksRoutes)
 
 const DEFAULT_PORT = process.env.PORT
 let PEER_PORT
