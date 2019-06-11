@@ -63,14 +63,14 @@ class PubSub {
   broadcastChain() {
     this.publish({
       channel: CHANNELS.BLOCKCHAIN,
-      message: JSON.stringify(this.blockchain.chain, null, 1)
+      message: JSON.stringify(this.blockchain.chain, null, 2)
     })
   }
 
   broadcastTransaction(transaction) {
     this.publish({
       channel: CHANNELS.TRANSACTION,
-      message: JSON.stringify(transaction)
+      message: JSON.stringify(transaction, null, 2)
     })
   }
 }
