@@ -6,7 +6,7 @@ const app = express()
 const { router: indexRoutes, syncWithRootState } = require('./routes/index')
 
 app.use(express.json())
-app.use(express.static('client'))
+app.use(express.static(('client/dist')))
 
 app.use(indexRoutes)
 

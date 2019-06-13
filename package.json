@@ -7,7 +7,8 @@
     "start": "node app/app.js",
     "test": "cross-env GENERATE_PEER_PORT='true' jest --watchAll",
     "dev": "nodemon app/app.js",
-    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon app.js"
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon app.js",
+    "build-client": "parcel build client/src/index.html --out-dir client/dist"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,10 @@
     "elliptic": "^6.4.1",
     "express": "^4.17.1",
     "hex-to-binary": "^1.0.1",
+    "parcel-bundler": "^1.12.3",
     "pubnub": "^4.24.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "request": "^2.88.0",
     "supertest": "^4.0.2",
     "uuid": "^3.3.2"
