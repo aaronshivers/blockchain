@@ -3,10 +3,11 @@ import React, { Component } from 'react'
 class App extends Component {
   state = { walletInfo: {} }
 
-  componentDidMount() {
-    fetch('http://localhost:3000/api/wallet-info')
-      .then(res => res.json())
-      .then(json => this.setState({ walletInfo: json }))
+  async componentDidMount() {
+
+    const res = await fetch('http://localhost:3000/api/wallet-info')
+    const json = await res.json()
+    this.setState({ walletInfo: json })
   }
 
   render() {
