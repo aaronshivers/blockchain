@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const request = require('request')
+const path = require('path')
 
 const Blockchain = require('../../block/index')
 const PubSub = require('../pubsub')
@@ -17,9 +18,6 @@ const transactionMiner = new TransactionMiner({
 })
 
 const ROOT_NODE_ADDRESS = `http://localhost:${ process.env.PORT }`
-
-// GET /
-router.get('/', (req, res) => res.send('Hello'))
 
 // GET /api/blocks
 router.get('/api/blocks', (req, res) => {
@@ -122,8 +120,10 @@ router.get('/api/wallet-info', (req, res) => {
     res.json({ error: error.message })
 
   }
-
 })
+
+// GET *
+router.get('*', (req, res) => res.sendFile('index'))
 
 const syncWithRootState = () => {
   request({ url: `${ ROOT_NODE_ADDRESS }/api/blocks` }, (err, res, body) => {
