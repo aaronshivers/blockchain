@@ -106,7 +106,7 @@ router.get('/api/mine-transactions', (req, res) => {
 router.get('/api/wallet-info', (req, res) => {
 
   try {
-
+// console.log('wallet', wallet)
     const address = wallet.publicKey
     
     res.json({
@@ -123,7 +123,7 @@ router.get('/api/wallet-info', (req, res) => {
 })
 
 // GET *
-router.get('*', (req, res) => res.sendFile('index'))
+router.get('*', (req, res) => res.sendFile(path.join(__dirname, 'dist/index.html')))
 
 const syncWithRootState = () => {
   request({ url: `${ ROOT_NODE_ADDRESS }/api/blocks` }, (err, res, body) => {

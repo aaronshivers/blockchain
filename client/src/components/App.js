@@ -7,14 +7,18 @@ class App extends Component {
 
   async componentDidMount() {
 
-    const res = await fetch('http://localhost:3000/api/wallet-info')
-    const json = await res.json()
-    this.setState({ walletInfo: json })
+  fetch(`http://localhost:3000/api/wallet-info`)
+    .then(response => response.json())
+    .then(json => this.setState({ walletInfo: json }))
+
+    // const res = await fetch('http://localhost:3000/api/wallet-info')
+    // const json = await res.json()
+    // this.setState({ walletInfo: json })
   }
 
   render() {
     const { address, balance } = this.state.walletInfo
-
+// console.log('walletInfo', this.state.walletInfo)
     return (
       <div className='App'>
         <img className='logo' src={ logo }></img>

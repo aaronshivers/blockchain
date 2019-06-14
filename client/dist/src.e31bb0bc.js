@@ -26874,31 +26874,28 @@ function (_Component) {
       var _componentDidMount = (0, _asyncToGenerator2.default)(
       /*#__PURE__*/
       _regenerator.default.mark(function _callee() {
-        var res, json;
+        var _this2 = this;
+
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return fetch('http://localhost:3000/api/wallet-info');
+                fetch("http://localhost:3000/api/wallet-info").then(function (response) {
+                  return response.json();
+                }).then(function (json) {
+                  return _this2.setState({
+                    walletInfo: json
+                  });
+                }); // const res = await fetch('http://localhost:3000/api/wallet-info')
+                // const json = await res.json()
+                // this.setState({ walletInfo: json })
 
-              case 2:
-                res = _context.sent;
-                _context.next = 5;
-                return res.json();
-
-              case 5:
-                json = _context.sent;
-                this.setState({
-                  walletInfo: json
-                });
-
-              case 7:
+              case 1:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee);
       }));
 
       function componentDidMount() {
@@ -26912,7 +26909,8 @@ function (_Component) {
     value: function render() {
       var _this$state$walletInf = this.state.walletInfo,
           address = _this$state$walletInf.address,
-          balance = _this$state$walletInf.balance;
+          balance = _this$state$walletInf.balance; // console.log('walletInfo', this.state.walletInfo)
+
       return _react.default.createElement("div", {
         className: "App"
       }, _react.default.createElement("img", {
@@ -27042,7 +27040,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37609" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44277" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
