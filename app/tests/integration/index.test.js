@@ -23,9 +23,6 @@ describe('/', () => {
       await request(server)
         .get('/')
         .expect(200)
-        .expect(res => {
-          expect(res.text).toContain('Hello')
-        })
     })
   })
 })
