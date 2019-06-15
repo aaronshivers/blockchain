@@ -1,5 +1,4 @@
 const hexToBinary = require('hex-to-binary')
-const crypto = require('crypto')
 const { GENESIS_DATA, MINE_RATE } = require('../config')
 const { cryptoHash } = require('../util')
 
@@ -42,9 +41,9 @@ class Block {
 
     if (difficulty < 1) return 1
 
-    const difference = timestamp - originalBlock.timestamp
-
-    return difference > MINE_RATE ? difficulty - 1 : difficulty + 1
+    if ((timestamp - originalBlock.timestamp) > MINE_RATE) return difficulty - 1
+  
+    return difficulty + 1
   }
 }
 

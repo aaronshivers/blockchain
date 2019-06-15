@@ -20,7 +20,7 @@ class PubSub {
     this.wallet = wallet
 
     this.pubnub = new PubNub(credentials)
-    this.pubnub.subscribe({ channels: Object.values(CHANNELS) })
+    this.pubnub.subscribe({ channels: [ Object.values(CHANNELS) ] })
     this.pubnub.addListener(this.listener())
   }
 
@@ -36,7 +36,7 @@ class PubSub {
           case CHANNELS.BLOCKCHAIN:
             this.blockchain.replaceChain(parsedMessage, true, () => {
               this.transactionPool.clearBlockchainTransactions({
-                chain: parsedMessage
+                chain: parsedMessage.chain
               })
             })
             break
@@ -61,9 +61,11 @@ class PubSub {
   }
 
   publish({ channel, message }) {
-    this.pubnub.unsubscribe({ channel })
-    setTimeout(() => this.pubnub.publish({ channel, message }), 3000)
-    setTimeout(() => this.pubnub.subscribe({ channels: [ Object.values(CHANNELS) ] }), 6000)
+    // this.pubnub.unsubscribe({ channel })
+    // setTimeout(() => this.pubnub.publish({ channel, message }), 3000)
+    // setTimeout(() => this.pubnub.subscribe({ channels: [ Object.values(CHANNELS) ] }), 6000)
+
+    this.pubnub.publish({ channel, message })
   }
 
   broadcastChain() {

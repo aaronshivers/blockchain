@@ -39,6 +39,7 @@ class Transaction {
     }
 
     this.outputMap[senderWallet.publicKey] -= amount
+    
     this.input = this.createInput({ senderWallet, outputMap: this.outputMap })
   }
 
