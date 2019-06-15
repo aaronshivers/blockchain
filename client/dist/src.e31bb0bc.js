@@ -30600,7 +30600,7 @@ function (_Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return fetch('http://localhost:3000/api/wallet-info');
+                return fetch("".concat(document.location.origin, "/api/wallet-info"));
 
               case 2:
                 res = _context.sent;
@@ -46164,7 +46164,7 @@ function (_Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return fetch('http://localhost:3000/api/blocks');
+                return fetch("".concat(document.location.origin, "/api/blocks"));
 
               case 2:
                 res = _context.sent;
@@ -46291,7 +46291,7 @@ function (_Component) {
             case 0:
               _this$state = _this.state, recipient = _this$state.recipient, amount = _this$state.amount;
               _context.next = 3;
-              return fetch('http://localhost:3000/api/transact', {
+              return fetch("".concat(document.location.origin, "/api/transact"), {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -46387,6 +46387,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var POLL_INTERVAL_MS = 10000;
+
 var TransactionPool =
 /*#__PURE__*/
 function (_Component) {
@@ -46418,7 +46420,7 @@ function (_Component) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return fetch('http://localhost:3000/api/transaction-pool-map');
+              return fetch("".concat(document.location.origin, "/api/transaction-pool-map"));
 
             case 2:
               res = _context.sent;
@@ -46445,7 +46447,17 @@ function (_Component) {
   (0, _createClass2.default)(TransactionPool, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var _this2 = this;
+
       this.fetchTransactionPoolMap();
+      this.fetchPoolMapInterval = setInterval(function () {
+        return _this2.fetchTransactionPoolMap();
+      }, POLL_INTERVAL_MS);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.fetchPoolMapInterval);
     }
   }, {
     key: "render",

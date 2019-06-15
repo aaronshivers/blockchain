@@ -17,7 +17,7 @@ class ConductTransaction extends Component {
   conductTransaction = async () => {
     const { recipient, amount } = this.state
 
-    const res = await fetch('http://localhost:3000/api/transact', {
+    const res = await fetch(`${ document.location.origin }/api/transact`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ recipient, amount })
