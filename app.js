@@ -20,7 +20,7 @@ const transactionMiner = new TransactionMiner({
 })
 
 app.use(express.json())
-app.use(express.static('client/dist'))
+app.use(express.static(path.join(__dirname, 'client/dist')))
 
 // GET /api/blocks
 app.get('/api/blocks', (req, res) => {
@@ -126,7 +126,7 @@ app.get('/api/wallet-info', (req, res) => {
 })
 
 // GET *
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'dist/index.html')))
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'client/dist/index.html')))
 
 const syncWithRootState = () => {
   request({ url: `${ ROOT_NODE_ADDRESS }/api/blocks` }, (err, res, body) => {
