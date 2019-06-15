@@ -66,11 +66,11 @@ app.post('/api/transact', (req, res) => {
 
     pubsub.broadcastTransaction(transaction)
 
-    res.json({ transaction })
+    res.json({ type: 'success', transaction })
 
   } catch (error) {
 
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ type: 'error', message: error.message })
 
   }
 })

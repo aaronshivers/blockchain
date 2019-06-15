@@ -13,9 +13,21 @@ class ConductTransaction extends Component {
     this.setState({ amount: Number(event.target.value) })
   }
 
-  render() {
-    console.log('this.state', this.state)
+  conductTransaction = async () => {
+    const { recipient, amount } = this.state
 
+    const res = await fetch('http://localhost:3000/api/transact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipient, amount })
+    })
+
+    const json = await res.json()
+
+    alert(json.message || json.type)
+  }
+
+  render() {
     return (
       <div className='ConductTransaction'>
         <Link to='/'>Home</Link>
@@ -36,6 +48,14 @@ class ConductTransaction extends Component {
             onChange={ this.updateAmount }
           />
         </FormGroup>
+        <div>
+          <Button
+            variant="danger"
+            onClick={ this.conductTransaction }
+          >
+            Submit
+          </Button>
+        </div>
       </div>
     )
   }
