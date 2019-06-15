@@ -11,6 +11,8 @@ const TransactionPool = require('./wallet/transaction-pool')
 const Wallet = require('./wallet')
 const TransactionMiner = require('./app/transaction-miner')
 
+const isDevelopment = process.env.ENV === 'development'
+
 const blockchain = new Blockchain()
 const transactionPool = new TransactionPool()
 const wallet = new Wallet
@@ -148,7 +150,7 @@ const syncWithRootState = () => {
   })
 }
 
-// if (isDevelopment) {
+if (isDevelopment) {
   const walletFoo = new Wallet()
   const walletBar = new Wallet()
 
@@ -186,7 +188,7 @@ const syncWithRootState = () => {
 
     transactionMiner.mineTransactions()
   }
-// }
+}
 
 const ROOT_NODE_ADDRESS = `http://localhost:${ process.env.PORT }`
 
@@ -197,7 +199,7 @@ if (process.env.GENERATE_PEER_PORT === 'true') {
   PEER_PORT = Number(DEFAULT_PORT) + Math.floor(Math.random() * 1000)
 }
 
-const PORT = PEER_PORT || DEFAULT_PORT
+const PORT = process.env.PORT || PEER_PORT || DEFAULT_PORT
 
 const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${ PORT }.`)
