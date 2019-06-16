@@ -8,7 +8,7 @@
   "main": "app.js",
   "scripts": {
     "test": "jest --watchAll",
-    "start": "node app.js",
+    "start": "npm run build && node app.js",
     "dev": "npm run dev-client & cross-env ENV='development' nodemon app.js",
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' ENV='development' nodemon app.js",
     "build": "parcel build client/src/index.html",
