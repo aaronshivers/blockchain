@@ -7,13 +7,14 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "dev-server": "webpack-dev-server",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack -p --env production",
     "test": "jest --watchAll",
-    "start": "npm run build & node app.js",
-    "dev": "npm run dev-client & cross-env ENV='development' nodemon app.js",
-    "dev-peer": "cross-env GENERATE_PEER_PORT='true' ENV='development' nodemon app.js",
-    "build": "npm run clean && parcel build client/src/index.html --no-minify --out-dir client/dist",
-    "dev-client": "npm run clean && parcel client/src/index.html --out-dir client/dist",
-    "clean": "rm -rf .cache client/dist"
+    "dev": "npm run build:dev && nodemon app.js",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' HAM=tasty nodemon app.js",
+    "heroku-postbuild": "npm run build:prod"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,14 @@
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-transform-runtime": "^7.4.4",
-    "jest": "^24.8.0"
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.0.0",
+    "jest": "^24.8.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -41,7 +49,6 @@
     "express": "^4.17.1",
     "hex-to-binary": "^1.0.1",
     "history": "^4.9.0",
-    "parcel-bundler": "^1.12.3",
     "pubnub": "^4.24.1",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",

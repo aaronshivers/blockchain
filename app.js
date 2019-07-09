@@ -22,7 +22,7 @@ const transactionMiner = new TransactionMiner({
 })
 
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'client/dist')))
+app.use(express.static(path.join(__dirname, 'client', 'public')))
 
 // GET /api/blocks
 app.get('/api/blocks', (req, res) => {
@@ -128,7 +128,7 @@ app.get('/api/wallet-info', (req, res) => {
 })
 
 // GET *
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'client/dist/index.html')))
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'client', 'public', 'index.html')))
 
 const syncWithRootState = () => {
   request({ url: `${ ROOT_NODE_ADDRESS }/api/blocks` }, (err, res, body) => {
@@ -199,7 +199,7 @@ if (process.env.GENERATE_PEER_PORT === 'true') {
   PEER_PORT = Number(DEFAULT_PORT) + Math.floor(Math.random() * 1000)
 }
 
-const PORT = process.env.PORT || PEER_PORT || DEFAULT_PORT
+const PORT = PEER_PORT || DEFAULT_PORT
 
 const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${ PORT }.`)
